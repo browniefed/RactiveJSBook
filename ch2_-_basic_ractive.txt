@@ -92,7 +92,7 @@ This isn't an api reference but is a concept that is core to Ractive. Accessing,
 Get is straight forward, you supply a keypath and it will return the value. If the keypath supplied returns an Object/Array then modification of returned object will modify the Ractive data. The data object is just a POJO(Plain Old JavaScript Object) so when things change by reference the data object will change. This is not true for simple data types (strings, integers, booleans, etc) but that is where the set functionality comes in.
 
 ### set (Keypath, Value, Complete Function)
-Set will take a keypath and a data value to set for that path. This will instruct Ractive on how to traverse the data object to set the data. If a path on the data object does not exist Ractive will intelligently create it. What I say by intelligently is when referencing an object or an array it does not care. You can use the same keypath . notation and Ractive will figure it out. 
+Set will take a keypath and a data value to set for that path. If a path on the data object does not exist Ractive will intelligently create it. What I say by intelligently is when referencing an object or an array it does not care. You can use the same keypath . notation and Ractive will figure it out. 
 There are some caveats. Based upon the nature of dependency tracking when calling set this will fire the "change" event. Meaning the anywhere bound to the data value will cause an update to the DOM. This is not ideal since constantly updating the DOM is costly. Ractive allows you to operate on the data object because it's just a POJO (Plain Ole JavaScript Object). Which then allows you to call update to propagate the changes out to the DOM. 
 
 ```
