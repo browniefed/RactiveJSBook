@@ -86,7 +86,7 @@ Decorators will be covered more in depth in the decorators chapter.
 Here we will explain each function that can be referenced on an instance of Ractive.
 
 ## keypath
-This isn't an api reference but is a concept that is core to Ractive. Accessing, modifying, observing, and bindings utilize keypaths. Keypaths are . notation strings that inform Ractive how to traverse the data object. This will allow you to build simple/complex strings to access and update data. Data translates to how the DOM is contstructed so your DOM nodes will be bound to keypaths.
+This isn't an api reference but is a concept that is core to Ractive. Accessing, modifying, observing, and bindings utilize keypaths. Keypaths are dot notation strings that inform Ractive how to traverse the data object. This will allow you to build simple/complex strings to access and update data. Data translates to how the DOM is contstructed so your DOM nodes will be bound to keypaths.
 
 ### get (Keypath)
 Get is straight forward, you supply a keypath and it will return the value. If the keypath supplied returns an Object/Array then modification of returned object will modify the Ractive data. The data object is just a POJO(Plain Old JavaScript Object) so when things change by reference the data will object will change. This is not true for simple data types (strings, integers, booleans, etc) but that is where the set functionality comes in.
