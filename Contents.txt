@@ -3,3 +3,4 @@
 ch1_-_introduction.txt
 ch2_-_basic_ractive.txt
 ch3_-_enhanced_mustache_templating.txt
+ch4_-_decorators.txt
