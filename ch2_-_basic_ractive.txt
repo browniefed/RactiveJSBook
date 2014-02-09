@@ -150,7 +150,7 @@ items: [
 ]
 ```
 
-Caveat here is that if a value is run through an expression two-way data binding will not work and thus updateModel will not know what binding. In these instances decorators can be used to monitor for changes and update an appropriate keypath.
+Caveat here is that if a value is run through an expression two-way data binding will not work and thus `updateModel` will not know what binding to update. In these instances decorators can be used to monitor for changes and update an appropriate keypath.
 
 ### Observer
 
