@@ -118,7 +118,7 @@ Optionally with the 3rd parameter you are able to instruct Ractive how it should
 As previously stated in the `set` explanation there may be at times where operating on the data object itself may be easier or more suitable than utilizing set. Calling update with an optional keypath and optionally a complete function(or just a complete function) will instruct Ractive to search for data that has changed and update the DOM and template bindings.
 
 ### updateModel (Keypath[, Cascade]) / ()
-updateModel is the opposite of update. Update should be called when the data object changes but updateModel should be called when your DOM changes. If you use jQuery plugins values may be programatically modified. Calling updateModel will do a check on the DOM and update the data bindings. The Cascade option is `Boolean` and defaults to `false`. If you specify a keypath with downstream items, in many cases an array of items, it will check all bindings below.
+updateModel is the opposite of `update`. Update should be called when the data object changes but updateModel should be called when your DOM changes. If you use jQuery plugins values may be programatically modified. Calling updateModel will do a check on the DOM and update the data bindings. The Cascade option is `Boolean` and defaults to `false`. If you specify a keypath with downstream items, in many cases an array of items, it will check all bindings below.
 
 ```
 items : [
