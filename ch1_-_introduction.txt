@@ -9,3 +9,5 @@ I will not go into a full indepth background and innerworkings of Ractive as it 
 This book is written for Ractive .40 which is still in beta. This book will likely hold true for awhile as Ractive's API is intended to stay small. This makes Ractive a flexible library and allows you to do things your way while still reaping the benefits of Ractive. Things likely to change would be enhancements to components, decorators, adapators, general concepts, and even additional enhancements to the mustache templates.
 
 The objective of this book is to explain what Ractive offers. Then to move into the concepts section. This will talk about methodologies and the best ways to accomplish things in a performant manner. Then we'll show some examples which will be linked to the various chapters and concepts. 
+
+Always keep in mind that we're explaining things based upon the core concepts of Ractive. Modifying data and how that translates to intelligent updating of the DOM.
