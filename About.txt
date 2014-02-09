@@ -1,2 +1,3 @@
 ### About
-
+I always hate the about section and generally skim over it so I'll keep this short and sweet.
+I am a front end developer at Jama Software a Portland, Oregon based company. I write JavaScript, HTML, and CSS on a daily basis. I'm not a great writer but looking to get better.
