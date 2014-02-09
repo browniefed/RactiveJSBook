@@ -3,6 +3,7 @@
 Here we'll cover the basics of Ractive. We'll dive into instaniating a new Ractive and all of the initialization options and API methods.
 
 ## Instantiating 
+Creating a new instance is straight forward.
 
 
 ## API
