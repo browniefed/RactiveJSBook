@@ -12,6 +12,7 @@ var ractiveInstance = new Ractive({
     data: {}
 });
 ```
+
 There are intricacies to each property.
 ### el (String/DOM Element)
 The el property can be a reference to a particular `DOM element`. It will then render into that element. It can also be a `selector string` for example `#elementId` would render into the element with ID elementId. With the selector `body` it will render into the body.
@@ -22,32 +23,40 @@ The template property can be many things and can have an effect on performance. 
 ### partials (String/Selector/Template Object)
 This the index of sub-templates that will be referenced in your templates. It allows you to logically build your templates in small pieces. This has the same abilities as the template object in terms of taking a `String` , `Selector` or `Ractive Template Object`
 The partials key needs to match how you reference them in the template.
+
 ```
 partials: {
 	footer: 'partial Template',
     header: '#headerPartial'
 }
 ```
+
 and in your template you'd reference them like so. This will be further covered in the enhanced mustache templating section (Chapter 3)
+
 ```
 {{> header}}
 {{> footer}}
 ```
+
 ### components (Ractive.extend)
 Components follow the same pattern as partials in that they need to match the name supplied. However in templates these look like actual elements. Think Polymer but some encapsulated logic but not specially scoped CSS/Shadow DOM.
+
 ```
 components: {
 	Cell: Ractive.extend({template: ''}),
     LoginForm: Ractive.extend({template: ''})
 }
 ```
+
 ```
 <Cell value="{{value}}" id="{{id}}" label="{{name}}">
 <LoginForm username="{{email}}" password="{{pass}}" on-login="loginClick" >
 ```
+
 This will be covered more in depth in the Component chapter.
 ### decorators (Function)
-Decorators allow you to get access to the DOM element upon creation and upon destruction. An element in the template can only have a single reference to a decorator. The only requirement for a decorator is that the function returns an object with a teardown function. Decorators will simply give you the node which allows you to attach event listeners and also access the Ractive instance via the _ractive.root property.
+Decorators allow you to get access to the DOM element upon creation and upon destruction. An element in the template can only have a single reference to a decorator. The only requirement for a decorator is that the function returns an object with a teardown function. Decorators will simply give you the node which allows you to attach event listeners and also access the Ractive instance via the `_ractive.root` property.
+
 ```
 var validatorDecorator = function(node) {
 	var validateValue = function() {
@@ -61,11 +70,13 @@ var validatorDecorator = function(node) {
     }
 }
 ```
+
 ```
 decorators: {
 	validator: validatorDecorator
 }
 ```
+
 ```
 <input decorator="validator">
 ```
@@ -79,6 +90,7 @@ Here we will explain each function that can be referenced on an instance of Ract
 ### set (Keypath, Value, Complete Function)
 Set will take a keypath of data and a value to set. This will instruct Ractive on how to traverse the data object to set the data. If a path on the data object does not exist Ractive will intelligently create it. What I say by intelligently is when referencing an object or an array it does not care. You can use the same keypath . notation and Ractive will figure it out. 
 There are some caveats. Based upon the nature of dependency tracking when calling set this will fire the "change" event. Meaning the anywhere bound to the data value will cause an update to the DOM. This is not ideal since constantly updating the DOM is costly. Ractive allows you to operate on the data object because it's just a POJO (Plain Ole JavaScript Object). Which then allows you to call update to propagate the changes out to the DOM. 
+
 ```
 var rac = new Ractive({
 el: '',
@@ -93,6 +105,7 @@ rac.set('items', [1, 2, 3, 4]);
 rac.set('properties', {label: '', sortOrder: 'asc'});
 rac.set('newThing', 'New String');
 ```
+
 ### merge (Keypath, Value, Object(compare, complete))
 A newer method to Ractive but very useful. When data comes down from the server you may only want to update the DOM of things that have changed. This is beneneficial because if Ractive detects that an item in an array is exactly the same then it will know that it doesn't need to update the DOM. As always there are caveats here but Ractive uses === to identify if things have changed. 
 Optionally with the 3rd parameter you are able to instruct Ractive how it should compare. The compare key can be a `Boolean`, `String`, or `Function`. If `Boolean` this instructs Ractive to stringify and compare. If `String` it will check and compare on that property, this handy when an array of objects has a unique id property. Finally `Function` will be called with both array members and is up to you to make the comparison. It is expected that a `Boolean` is returned. True that they're same and False that they're different.
@@ -102,30 +115,37 @@ As previously stated in the `Set` explanation there may be at times where operat
 
 ### updateModel (Keypath[, Cascade]) / ()
 updateModel is the opposite of update. Update should be called when the data object changes but updateModel should be called when your DOM changes. If you use jQuery plugins values may be programatically modified. Calling updateModel will do a check on the DOM and update the data bindings. The Cascade option is `Boolean` and defaults to `false`. If you specify a keypath with downstream items, in many cases an array of items, it will check all bindings below.
+
 ```
 items : [
 	{name: 'Name'},
     {name: 'Some other name'}
 ]
 ```
+
 ```
 {{# items}}
 <input type="text" value="{{name}}">
 {{/items}}
 ```
+
 Change the values programatically
+
 ```
 $(input).eq(0).val('NEW NAME');
 ```
+
 ```
 rac.updateModel('items', true);
 ```
+
 ```
 items: [
 	{name: 'NEW NAME'},
     {name: 'Some other name'}
 ]
 ```
+
 Caveat here is that if a value is run through an expression two-way data binding will not work and thus updateModel will not know what binding. In these instances decorators can be used to monitor for changes and update an appropriate keypath.
 
 ### Observer
