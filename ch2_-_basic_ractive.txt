@@ -4,7 +4,13 @@ Here we'll cover the basics of Ractive. We'll dive into instaniating a new Racti
 
 ## Instantiating 
 Creating a new instance is straight forward.
-
+```
+var ractiveInstance = new Ractive({
+	el: '',
+    template: '',
+    data: {}
+});
+```
 
 ## API
 
