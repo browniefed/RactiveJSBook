@@ -75,7 +75,7 @@ Here we will explain each function that can be referenced on an instance of Ract
 
 ### Get
 
-### Set (Keypath, Value)
+### Set (Keypath, Value, Complete Function)
 Set will take a keypath of data and a value to set. This will instruct Ractive on how to traverse the data object to set the data. If a path on the data object does not exist Ractive will intelligently create it. What I say by intelligently is when referencing an object or an array it does not care. You can use the same keypath . notation and Ractive will figure it out. 
 There are some caveats. Based upon the nature of dependency tracking when calling set this will fire the "change" event. Meaning the anywhere bound to the data value will cause an update to the DOM. This is not ideal since constantly updating the DOM is costly. Ractive allows you to operate on the data object because it's just a POJO (Plain Ole JavaScript Object). Which then allows you to call update to propagate the changes out to the DOM. 
 ```
@@ -92,8 +92,10 @@ rac.set('items', [1, 2, 3, 4]);
 rac.set('properties', {label: '', sortOrder: 'asc'});
 rac.set('newThing', 'New String');
 ```
-### Merge (Keypath, Value)
-A newer method to Ractive but very useful. When data comes down from the server you may only want to update the DOM of things that have changed. This is bene
+### Merge (Keypath, Value, Object(compare, complete))
+A newer method to Ractive but very useful. When data comes down from the server you may only want to update the DOM of things that have changed. This is beneneficial because if Ractive detects that an item in an array is exactly the same then it will know that it doesn't need to update the DOM. As always there are caveats here but Ractive uses === to identify if things have changed. 
+Optionally with the 3rd parameter you are able to instruct Ractive how it should compare. The compare key can be a `Boolean`, `String`, or `Function`. If `Boolean` this instructs Ractive to stringify and compare. If `String` it will check and compare on that property, this handy when an array of objects has a unique id property. Finally `Function` will be called with both array members and is up to you to make the comparison. It is expected that a `Boolean` is returned. True that they're same and False that they're different.
+
 ### Update
 
 ### UpdateModel
