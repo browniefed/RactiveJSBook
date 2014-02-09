@@ -8,3 +8,4 @@ ch5_-_components.txt
 ch6_-_events.txt
 ch7_-_transition_and_animations.txt
 ch8_-_svgs.txt
+ch9_-_Adaptors.txt
