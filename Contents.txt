@@ -1,5 +1,4 @@
-> These files will be included in your book:
-
+About.txt
 ch1_-_introduction.txt
 ch2_-_basic_ractive.txt
 ch3_-_enhanced_mustache_templating.txt
