@@ -3,7 +3,7 @@
 Here we'll cover the basics of Ractive. We'll dive into instaniating a new Ractive and all of the initialization options and API methods.
 
 ## Instantiating 
-Creating a new instance is straight forward.
+Creating a new instance is straight forward, we need to specify an element to render into, a template to render, and some data.
 ```
 var ractiveInstance = new Ractive({
 	el: '',
@@ -11,7 +11,41 @@ var ractiveInstance = new Ractive({
     data: {}
 });
 ```
-
+There are intricacies to each property.
+### el (String/DOM Element)
+The el property can be a reference to a particular `DOM element`. It will then render into that element. It can also be a `selector string` for example `#elementId` would render into the element with ID elementId. With the selector `body` it will render into the body.
+### append (Boolean, default = false)
+This instructs Ractive how to work with the element that you've provided. You generally want to render into the element you provided but you may want to append(render next to) the element you've provided.
+### template (String/Selector/Template Object)
+The template property can be many things and can have an effect on performance. This will be covered in the concepts section. The idea is that you can provide a `String` mustache template that will then be parsed. Alternatively you can provide `#selector` to reference an inline template in a script tag `<script id="selctor" type="text/ractive-template">` which Ractive will then grab and parse. Finally the most optimized is using a parsed template that can be created by the Ractive.parse function. This will bypass all parsing and you'll gain significant performance boosts in older browsers.
+### partials (String/Selector/Template Object)
+This the index of sub-templates that will be referenced in your templates. It allows you to logically build your templates in small pieces. This has the same abilities as the template object in terms of taking a `String` , `Selector` or `Ractive Template Object`
+The partials key needs to match how you reference them in the template.
+```
+partials: {
+	footer: 'partial Template',
+    header: '#headerPartial'
+}
+```
+and in your template you'd reference them like so. This will be further covered in the enhanced mustache templating section (Chapter 3)
+```
+{{> header}}
+{{> footer}}
+```
+### components (Ractive.extend)
+Components follow the same pattern as partials in that they need to match the name supplied. However in templates these look like actual elements. Think Polymer but some encapsulated logic but not specially scoped CSS/Shadow DOM.
+```
+components: {
+	Cell: Ractive.extend({template: ''}),
+    LoginForm: Ractive.extend({template: ''})
+}
+```
+```
+<Cell value="{{value}}" id="{{id}}" label="{{name}}">
+<LoginForm username="{{email}}" password="{{pass}}" on-login="loginClick" >
+```
+This will be covered more in depth in the Component chapter.
+### decorators
 ## API
 
 ### Get
