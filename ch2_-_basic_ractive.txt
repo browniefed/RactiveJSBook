@@ -1,2 +1,56 @@
 # Basics of Ractive
 
+Here we'll cover the basics of Ractive. We'll dive into instaniating a new Ractive and all of the initialization options and API methods.
+
+## Instantiating 
+
+
+## API
+
+### Get
+
+### Set
+
+### Merge
+
+### Update
+
+### UpdateModel
+
+### Observer
+
+### On
+
+### Off
+
+### Fire
+
+### Find
+
+### FindAll
+
+### Animate
+
+### Teardown
+
+### ToHTML
+
+
+## Instance Properties
+
+### Nodes
+### Transitions (instance)
+### Partials (instance)
+
+### Static methods
+
+#### Parse
+
+#### Extend
+
+### Plugins and shared properties
+#### Adaptors
+#### eventDefinitions
+#### Easing
+#### Partials
+#### Transitions
