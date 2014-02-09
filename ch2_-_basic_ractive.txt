@@ -4,6 +4,7 @@ Here we'll cover the basics of Ractive. We'll dive into instaniating a new Racti
 
 ## Instantiating 
 Creating a new instance is straight forward, we need to specify an element to render into, a template to render, and some data.
+
 ```
 var ractiveInstance = new Ractive({
 	el: '',
