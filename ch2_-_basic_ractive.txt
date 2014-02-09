@@ -45,15 +45,55 @@ components: {
 <LoginForm username="{{email}}" password="{{pass}}" on-login="loginClick" >
 ```
 This will be covered more in depth in the Component chapter.
-### decorators
+### decorators (Function)
+Decorators allow you to get access to the DOM element upon creation and upon destruction. An element in the template can only have a single reference to a decorator. The only requirement for a decorator is that the function returns an object with a teardown function. Decorators will simply give you the node which allows you to attach event listeners and also access the Ractive instance via the _ractive.root property.
+```
+var validatorDecorator = function(node) {
+	var validateValue = function() {
+    	return;
+    }
+	var $node = $(node).on('change', validateValue);
+    return {
+    	teardown: function() {
+        	$node.off('change');
+        }
+    }
+}
+```
+```
+decorators: {
+	validator: validatorDecorator
+}
+```
+```
+<input decorator="validator">
+```
+
+Decorators will be covered more in depth in the decorators chapter.
 ## API
+Here we will explain each function that can be referenced on an instance of Ractive.
 
 ### Get
 
-### Set
+### Set (Keypath, Value)
+Set will take a keypath of data and a value to set. This will instruct Ractive on how to traverse the data object to set the data. If a path on the data object does not exist Ractive will intelligently create it. What I say by intelligently is when referencing an object or an array it does not care. You can use the same keypath . notation and Ractive will figure it out. 
+There are some caveats. Based upon the nature of dependency tracking when calling set this will fire the "change" event. Meaning the anywhere bound to the data value will cause an update to the DOM. This is not ideal since constantly updating the DOM is costly. Ractive allows you to operate on the data object because it's just a POJO (Plain Ole JavaScript Object). Which then allows you to call update to propagate the changes out to the DOM. 
+```
+var rac = new Ractive({
+el: '',
+template: '',
+data: {
+	items: [],
+    properties: {}
+}
+});
 
-### Merge
-
+rac.set('items', [1, 2, 3, 4]);
+rac.set('properties', {label: '', sortOrder: 'asc'});
+rac.set('newThing', 'New String');
+```
+### Merge (Keypath, Value)
+A newer method to Ractive but very useful. When data comes down from the server you may only want to update the DOM of things that have changed. This is bene
 ### Update
 
 ### UpdateModel
