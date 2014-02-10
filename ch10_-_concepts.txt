@@ -1,1 +1,12 @@
 # Concepts
+This chapter will go into methodologies/concepts when you encounter certain scenarios. These cover topics about performance, cool methods, and just how to do things in Ractive.
+
+## Pre-parsed Templates
+One the issues with older browsers is their slow JavaScript engines. Parsing strings can be extremely slow (looking at you IE8). So if you have a lot of templates, and large templates you'll spend extra milliseconds parsing the templates. This may not seem like much but it'll add up over time. 
+You may have the idea of caching templates, this works but you'll still take an initial performance hit the first time.
+This only works if you're using RequireJS but with a little work you could create a grunt task or setup your tempaltes as a RequireJS project then run the optimizer and then AMDClean so you can access your parsed templates via a single non-AMD loading interface. We won't be covering this now but it's an potential future topic.
+
+Thanks to Rich Harris getting pre-parsed templates couldn't be easier. He has done all the leg work and created the [rv.js plugin](https://github.com/RactiveJS/requirejs-ractive)
+## Dynamic Templates
+
+##
