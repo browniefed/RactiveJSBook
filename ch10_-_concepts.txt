@@ -29,6 +29,24 @@ You'll need to get the [RequireJS Optimizer](http://requirejs.org/docs/optimizat
 ```
 
 You may not notice performance gains initially but Ractive no longer will need to parse templates bringing template parsing down to 0ms. For reference some of our larger templates took anywhere from 40-300ms to parse in Chrome and over 2s in IE8.
-## Dynamic Templates
 
-##
+## Dynamic Templating
+
+
+## Reduce Touching the DOM in Loops
+One of the issues with dependency tracking is when looping over an array in your data and using setter methods (`set` in Ractive) this will cause each modification to propagate to the DOM, blocking the thread, thus slowing your application. If you didn't know making changes and touching the DOM is generally a very costly operation. This is why Ractive does partial DOM updating when data changes.
+
+This is all under the assumption that you are not using Magic Mode! Otherwise with Magic Mode enabled(in modern browsers) even changing the data directly will utilize ES5 accessors. These will call functions when data is set/get.
+
+```
+var items = ractive.get('items');
+items.forEach(function(item, index) {
+	item.name = index;
+});
+
+ractive.update('items'); 
+//OR
+ractive.set('items', items);
+```
+
+## Magic Mode and Performance
