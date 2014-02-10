@@ -1,0 +1,9 @@
+# Enhanced Mustache Templating
+
+Ractive implements Mustache specification as closely as possible. It can't implement it 100% because of how Ractive parses templates. It turns a string into a Object and then has to restringify it. This is no matter though as with the enhanced templating you can accomplish the same thing multiple ways. Sometimes a method may be more efficient than another but we'll get to that in the concepts section at the end.
+
+## Basic Mustache
+
+## Enhanced Mustache
+
+## Expressions
