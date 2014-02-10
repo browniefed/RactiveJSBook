@@ -31,7 +31,67 @@ You'll need to get the [RequireJS Optimizer](http://requirejs.org/docs/optimizat
 You may not notice performance gains initially but Ractive no longer will need to parse templates bringing template parsing down to 0ms. For reference some of our larger templates took anywhere from 40-300ms to parse in Chrome and over 2s in IE8.
 
 ## Dynamic Templating
+This isn't true dynamic templating and more pseudo dynamic templating but it is still an effective method. Their are small drawbacks but this method will set us up for an easy transition to when real dynamic templating lands.
 
+The following example is taken from the Ractive docs which I wrote. It is a simple example showing how you may construct a form field generator with varying templates. The templates being on the data attribute will set you up for future changes to partials and the possibility that they get moved to the data attribute. 
+
+One thing you may notice is that on-keypressed must be defined on the template even though the only thing that emits it is the input field. This is a drawback since you must explicitly delcare the events in the template so the component event can be mapped to your parent `on`. This will become a moot point once true dynamic templating lands as the partials will be in the scope of the parent. So your best bet is to name your events the same on the component and parent so you don't have to do any rewriting later.
+
+### Form Element Component
+
+```
+var formElement = Ractive.extend({
+  template: '{{>element}}',
+  setTemplate: function(options) {
+    options.partials.element = options.data.template;
+  },
+  beforeInit: function(options) {
+    this.setTemplate(options)
+  }
+});
+```
+### Form Template
+```
+{{#items}}
+<formElement value="{{value}}" template="{{template}}" on-keypressed="keypressed" />
+{{/items}}
+```
+
+### Ractive Form
+
+```
+var ractive = new Ractive({
+  el: 'body',
+  template: formTemplate,
+  components: {
+    formElement: formElement
+  }
+  data: {
+    items: [
+        {
+          template: '<h1>{{value}}</h1>',
+          value: 'This is a title'
+        },
+        {
+          template: '<input type="text" value="{{value}}" style="display:block; clear: both;" on-keypress="keypressed"/>',
+          value: 'Input Value'
+        },
+        {
+          template: '<textarea value="{{value}}"></textarea>',
+          value: 'Textarea Value'
+        }
+    ]
+  }
+
+});
+ractive.observe('items.*.value', function(newValue, oldValue, keypath) {
+  console.log(keypath + ' ' + newValue);
+});
+
+ractive.on('keypressed', function(e) {
+	console.log(e);
+});
+```
 
 ## Reduce Touching the DOM in Loops
 One of the issues with dependency tracking is when looping over an array in your data and using setter methods (`set` in Ractive) this will cause each modification to propagate to the DOM, blocking the thread, thus slowing your application. If you didn't know making changes and touching the DOM is generally a very costly operation. This is why Ractive does partial DOM updating when data changes.
@@ -49,4 +109,8 @@ ractive.update('items');
 ractive.set('items', items);
 ```
 
+It's not a complex example and with this simple example may not have any performance differences. However in the real world if you're changing more than a single property on an object and that data is bound in many different areas in your template then it will likely increase performance.
+
 ## Magic Mode and Performance
+This is slightly restating what was previously said in the `Reduce Touching DOM in Loops` but it bares repeating.
+In modern browsers magic mode will use Object.defineProperty to add functions that are called when data is get/set. Inherently additional function calls means things will be slower. Granted we're talking milliseconds but if you're attempting to milk out every millisecond you can then disabling magic mode and explicitly using `set` or operating on the data directly and calling `update` will be the most performant.
