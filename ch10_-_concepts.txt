@@ -6,7 +6,29 @@ One the issues with older browsers is their slow JavaScript engines. Parsing str
 You may have the idea of caching templates, this works but you'll still take an initial performance hit the first time.
 This only works if you're using RequireJS but with a little work you could create a grunt task or setup your tempaltes as a RequireJS project then run the optimizer and then AMDClean so you can access your parsed templates via a single non-AMD loading interface. We won't be covering this now but it's an potential future topic.
 
-Thanks to Rich Harris getting pre-parsed templates couldn't be easier. He has done all the leg work and created the [rv.js plugin](https://github.com/RactiveJS/requirejs-ractive)
+Thanks to Rich Harris getting pre-parsed templates couldn't be easier. He has done all the leg work and created the [rv.js plugin](https://github.com/RactiveJS/requirejs-ractive). Including templates would usually utilize the test plugin for RequireJS and follow the path `text!path/to/template.html`(your extensions may vary) but instead you would use `rv!path/to/template.html`. This plugin makes an assumption that your templates end in .html. If it does not find the .html it will attempt to add it so you may need to slightly modify the plugin to match your template etension.
+
+To set it up you can either put all files (rv, text, and Ractive) in your baseUrl folder or define them in your config like so
+
+```
+require.config({
+    paths: {
+        Ractive: 'lib/Ractive',
+        text: 'plugins/text',
+        rv: 'plugins/rv'
+    }
+});
+```
+
+You'll need to get the [RequireJS Optimizer](http://requirejs.org/docs/optimization.html#download). When you run it with the path set to your config file it will automatically compile your RequireJS project into a single file and pre-parse your templates. If you do not need to use the text plugin for anything else then stub your modules by adding this into your config.
+
+```
+({
+    stubModules: [ 'rv', 'text' ]
+})
+```
+
+You may not notice performance gains initially but Ractive no longer will need to parse templates bringing template parsing down to 0ms. For reference some of our larger templates took anywhere from 40-300ms to parse in Chrome and over 2s in IE8.
 ## Dynamic Templates
 
 ##
