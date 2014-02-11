@@ -1,3 +1,20 @@
 # SVGs
 
-Enter text in [Markdown](http://daringfireball.net/projects/markdown/). Use the toolbar above, or click the **?** button for formatting help.
+Scalable Vetor Graphics are awesome. Fact! They work everywhere except IE8 and older Android. If you really need IE8 then you can still do VML or some other SVG polyfill but at some point it takes so much energy to just support older browsers that it isn't cost effective.
+This chapter will talk about raw SVG and may keep it fairly simple but there are a lot of great libraries out there like [paths.js](https://github.com/andreaferretti/paths-js) that allow you to build out SVG in as low or high level as you want.
+
+I'm not going to go in depth into what exactly SVGs are but I think it's important to know some use cases of when using simple SVGs are applicable.
+If you're going to do more complex data display operations I'd recommend using D3.js or similar SVG libraries.
+
+## Why and When to Use SVGs
+
+
+## Straight Lines
+
+## Circles
+
+## Bar Graphs
+
+## Pie Charts
+
+## Donut Charts
