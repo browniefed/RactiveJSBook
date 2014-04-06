@@ -1,2 +1,80 @@
 # Components
 
+This is going to be a very important chapter. Components are one of the key features of Ractive. They allow you to create modular, and resuable features that can be spread around your application. They also allow you to inject dynamic pieces of code to run while your template is rendering. You can name your components almost anything. Some valid names are  `<checkbox />` or `<accordian />` but `<big-component />` is not becuase of the dash. The components generally follow the W3C web component specification [http://www.w3.org/TR/components-intro/#custom-element-section](http://www.w3.org/TR/components-intro/#custom-element-section). It does not conform entirely to the specification but to an extent it does. 
+
+For example if you wrap content with your component you will have access to the `{{>content}}` partial inside of your component.
+
+```html
+<checkbox>
+	<label>This is the label</label>
+</checkbox>
+
+```
+`checkbox component template`
+
+```html
+<input type="checkbox" name="checkbox" />
+{{> content}} <!-- Will be <label> that was passed in -->
+```
+
+This may not make any sense at all since we haven't defined what a component actually is. A component is essentially another Ractive instance and is a child instance of the parent Ractive. The parent Ractive could be the top level instance or another component. 
+
+```
+Main Ractive Instance (parent instance - new Ractive()) -> Component Ractive Instance (<form>) -> Component Ractive Instance (<checkbox> - child to <form> component)
+```
+
+
+Components are defined by using `Ractive.extend({/* Your code here */})`
+
+##Example
+
+```javascript
+
+var Checkbox = Ractive.extend({
+	template: '<input type="checkbox" checked="{{checked}}"/>'
+});
+
+```
+
+```javascript
+
+var ractive = new Ractive({
+	template: '<checkbox checked="{{isChecked}}" />',
+	el: 'body',
+	data: { isChecked: true},
+	components: {checkbox: Checkbox}
+});
+
+```
+
+Look at that we just created a checkbox component. Thanks to Ractive and it's two way data binding magic when the user checks or unchecks the box the `isChecked` value on your `ractive` instance will automatically update even though we named the value differently in the component.
+
+As of Ractive .40 Components have access to the parent context in their templates. So we could have written the component like so and achieved the same functionality.
+
+```javascript
+
+var Checkbox = Ractive.extend({
+	template: '<input type="checkbox" checked="{{isChecked}}"/>'
+});
+
+```
+
+This is useful if you don't want to write pass through variables for you data. This however is likely not ideal if you want truly modular, resuable components. That is where the `isolated` flag is useful.
+
+```javascript
+
+var Checkbox = Ractive.extend({
+	isolated: true,
+	template: '<input type="checkbox" checked="{{isChecked}}"/>'
+});
+
+```
+This will isolate the template scope of the componet to just the data that is defined on the component. So when the user clicks on the checkbox in this situation the component data will look like so.
+
+```javascript
+data : {
+	checked: true, //passed in from the parent but not used
+	isChecked: true //bound to the checkbox and will toggle back and forth when the checkbox is checked/unchecked
+}
+```
+
